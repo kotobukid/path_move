@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://bg71cp10frghn"]
+
+[ext_resource type="Texture2D" uid="uid://perba1imoomx" path="res://icon.svg" id="1_jglyi"]
+[ext_resource type="Script" path="res://ghost.gd" id="1_vgbs3"]
+
+[sub_resource type="Curve2D" id="Curve2D_xg5ff"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -2, 2, 0, 0, 0, 0, -42.7572, -20.1451, 0, 0, 0, 0, -63, -50, 0, 0, 0, 0, -87.4483, -119.878, 0, 0, 0, 0, -78.3085, -186.882, 0, 0, 0, 0, -53.9388, -248.136, 0, 0, 0, 0, -7, -281)
+}
+point_count = 7
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4vwtg"]
+radius = 63.9501
+
+[sub_resource type="Animation" id="Animation_tsrij"]
+resource_name = "move_wind"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0.0217629, 1.5)
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"start_move"
+}, {
+"args": [],
+"method": &"commit_move"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PathFollow2D/GhostBodyRoot/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.9, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PathFollow2D/GhostBodyRoot:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.7, 1, 1.5, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.388235), Color(1, 1, 1, 1), Color(1, 1, 1, 0.435294), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0dodc"]
+_data = {
+"move_wind": SubResource("Animation_tsrij")
+}
+
+[node name="GhostManager" type="Node2D"]
+script = ExtResource("1_vgbs3")
+
+[node name="WindWayPath" type="Path2D" parent="."]
+rotation = -1.31598
+curve = SubResource("Curve2D_xg5ff")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="WindWayPath"]
+position = Vector2(-2, 2)
+rotates = false
+loop = false
+
+[node name="GhostBodyRoot" type="CharacterBody2D" parent="WindWayPath/PathFollow2D"]
+
+[node name="DisplayBoundary" type="Node2D" parent="WindWayPath/PathFollow2D/GhostBodyRoot"]
+position = Vector2(-1.8225, -2.16298)
+
+[node name="Icon" type="Sprite2D" parent="WindWayPath/PathFollow2D/GhostBodyRoot/DisplayBoundary"]
+position = Vector2(2.19499, 1.78382)
+texture = ExtResource("1_jglyi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WindWayPath/PathFollow2D/GhostBodyRoot"]
+shape = SubResource("CircleShape2D_4vwtg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WindWayPath"]
+libraries = {
+"": SubResource("AnimationLibrary_0dodc")
+}

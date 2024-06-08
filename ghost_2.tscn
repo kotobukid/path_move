@@ -1,0 +1,151 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctcn7vyeihgxn"]
+
+[ext_resource type="Script" path="res://ghost_2.gd" id="1_j50bm"]
+[ext_resource type="Texture2D" uid="uid://cb5yst2idetox" path="res://ghost_pic.png" id="2_avvik"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_48hq2"]
+radius = 58.0345
+
+[sub_resource type="Animation" id="Animation_w3nuc"]
+resource_name = "move_wind"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathGroup/Path2D_A/PathFollow2D:progress_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0132779, 0.9, 0.958123),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 1.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0051069, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"target_rotation"
+}, {
+"args": [],
+"method": &"commit_move"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DisplayRoot/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.870475, 0.94076),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DisplayRoot:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.132684, 0.3, 0.501948, 0.570285, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 1), Color(1, 1, 1, 0.792157), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DisplayRoot/GhostPic:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.033078, 0.137561, 0.298856),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.174533, 0.0, -0.174533]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PathGroup/Path2D_B/PathFollow2D:progress_ratio")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.0132779, 0.900032, 0.956208),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 1.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2ihgq"]
+_data = {
+"move_wind": SubResource("Animation_w3nuc")
+}
+
+[sub_resource type="Curve2D" id="Curve2D_huou8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -25.5257, 13.9083, 0, 0, 0, 0, -53.5076, 25.825, 0, 0, 0, 0, -102.315, 27.7773, 0, 0, 0, 0, -134, 19, 0, 0, 0, 0, -152.856, 0.233833, 0, 0, 0, 0, -170.402, -12.7712, 0, 0, 0, 0, -201.644, -23.4459, 0, 0, 0, 0, -242, -29, 0, 0, 0, 0, -274.324, -26.1936, 0, 0, 0, 0, -303, -11, 0, 0, 0, 0, -324.088, 1.03877, 0, 0, 0, 0, -345.411, 29.3464)
+}
+point_count = 13
+
+[sub_resource type="Curve2D" id="Curve2D_8weod"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -3.57692, 9.72, 0, 0, 0, 0, 37.5577, -67.24, 0, 0, 0, 0, 51.8654, -135.32, 0, 0, 0, 0, 32.1923, -185.64, 0, 0, 0, 0, -25.0385, -203.4, 0, 0, 0, 0, -76.9038, -153.08, 0, 0, 0, 0, -101.942, -64.28, 0, 0, 0, 0, -137.712, 3.8, 0, 0, 0, 0, -171.692, 39.32, 0, 0, 0, 0, -234.288, 54.12, 0, 0, 0, 0, -280.788, 51.16, 0, 0, 0, 0, -311.192, 0.840001)
+}
+point_count = 12
+
+[node name="Ghost2" type="Node2D" node_paths=PackedStringArray("current_route_path")]
+script = ExtResource("1_j50bm")
+current_route_path = NodePath("PathGroup/Path2D_A")
+
+[node name="DisplayRoot" type="Area2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.32426, 0.32426)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DisplayRoot"]
+shape = SubResource("CircleShape2D_48hq2")
+
+[node name="GhostPic" type="Sprite2D" parent="DisplayRoot"]
+rotation = -0.174533
+scale = Vector2(7.92347, 7.92347)
+texture = ExtResource("2_avvik")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2ihgq")
+}
+
+[node name="PathGroup" type="Node2D" parent="."]
+
+[node name="Path2D_A" type="Path2D" parent="PathGroup"]
+position = Vector2(-0.307791, -0.818864)
+scale = Vector2(0.497238, 0.334883)
+curve = SubResource("Curve2D_huou8")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="PathGroup/Path2D_A"]
+visible = false
+rotation = 2.64269
+loop = false
+
+[node name="Marker2D" type="Marker2D" parent="PathGroup/Path2D_A/PathFollow2D"]
+
+[node name="Path2D_B" type="Path2D" parent="PathGroup"]
+modulate = Color(0.988235, 0.552941, 0.764706, 1)
+position = Vector2(0, -0.283784)
+scale = Vector2(0.55914, 0.337838)
+curve = SubResource("Curve2D_8weod")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="PathGroup/Path2D_B"]
+position = Vector2(-3.57692, 9.72)
+rotation = -1.07994
+
+[node name="Marker2D" type="Marker2D" parent="PathGroup/Path2D_B/PathFollow2D"]
